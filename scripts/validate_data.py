@@ -8,7 +8,7 @@ Action Priority Board - 데이터 검증 스크립트
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
@@ -33,13 +33,28 @@ def validate_data():
             return False
         
         # 데이터 신선도 확인
-        last_updated = datetime.fromisoformat(data['lastUpdated'])
-        age = datetime.now() - last_updated
+        try:
+            last_updated_str = data['lastUpdated']
+            # ISO 형식 파싱 (시간대 정보 포함 또는 미포함)
+            if last_updated_str.endswith('Z'):
+                last_updated = datetime.fromisoformat(last_updated_str.replace('Z', '+00:00'))
+            elif '+' in last_updated_str or last_updated_str.count('-') > 2:
+                last_updated = datetime.fromisoformat(last_updated_str)
+            else:
+                # 시간대 정보 없으면 UTC로 처리
+                last_updated = datetime.fromisoformat(last_updated_str).replace(tzinfo=timezone.utc)
+            
+            # 현재 시간 (UTC)
+            now = datetime.now(timezone.utc)
+            age = now - last_updated
+            
+            if age > timedelta(days=1):
+                logger.warning(f"⚠️ 데이터가 오래되었습니다: {age.days}일 전")
+            else:
+                logger.info(f"✅ 데이터 신선도 양호: {age.total_seconds() / 3600:.1f}시간 전")
         
-        if age > timedelta(days=1):
-            logger.warning(f"⚠️ 데이터가 오래되었습니다: {age.days}일 전")
-        else:
-            logger.info(f"✅ 데이터 신선도 양호: {age.total_seconds() / 3600:.1f}시간 전")
+        except Exception as e:
+            logger.warning(f"⚠️ 날짜 파싱 실패: {str(e)}")
         
         # 뉴스 개수 확인
         news_count = len(data.get('news', []))
@@ -69,6 +84,7 @@ def validate_data():
         sources = set(n.get('source', '') for n in data['news'])
         logger.info(f"📰 뉴스 소스: {len(sources)}개 ({', '.join(list(sources)[:5])}...)")
         
+        logger.info("✅ 데이터 검증 완료!")
         return True
     
     except json.JSONDecodeError:

@@ -1,0 +1,749 @@
+/* ==========================================
+   Action Priority Board - 스타일 시트
+   ========================================== */
+
+:root {
+    /* 색상 팔레트 */
+    --primary-white: #ffffff;
+    --primary-navy: #0a1f3f;
+    --primary-blue: #1e5ba8;
+    --accent-blue: #2563eb;
+    --light-blue: #e0eef7;
+    --neutral-gray: #6b7280;
+    --light-gray: #f3f4f6;
+    --border-gray: #e5e7eb;
+    
+    /* 리스크 색상 */
+    --risk-green: #10b981;
+    --risk-yellow: #f59e0b;
+    --risk-orange: #ef8537;
+    --risk-red: #dc2626;
+    
+    /* 상태 색상 */
+    --status-success: #10b981;
+    --status-warning: #f59e0b;
+    --status-danger: #dc2626;
+    --status-info: #3b82f6;
+    
+    /* 폰트 */
+    --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans KR', sans-serif;
+    --font-mono: 'Courier New', monospace;
+    
+    /* 사이즈 */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    
+    /* 그림자 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   리셋 및 기본 스타일
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--light-gray);
+    color: var(--primary-navy);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================
+   레이아웃
+   ========================================== */
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-blue) 100%);
+    color: var(--primary-white);
+    padding: 24px 20px;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.last-updated {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.update-time {
+    font-weight: 600;
+    font-family: var(--font-mono);
+}
+
+main {
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 32px 20px;
+}
+
+.footer {
+    background-color: var(--light-gray);
+    border-top: 1px solid var(--border-gray);
+    padding: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--neutral-gray);
+}
+
+/* ==========================================
+   섹션 스타일
+   ========================================== */
+
+.section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--primary-navy);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 16px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-gray);
+    border-radius: var(--radius-md);
+    background-color: var(--primary-white);
+    color: var(--primary-navy);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-select:hover {
+    border-color: var(--accent-blue);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ==========================================
+   카드 스타일 (액션 카드)
+   ========================================== */
+
+.action-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.action-card {
+    background: var(--primary-white);
+    border: 1px solid var(--border-gray);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+}
+
+.action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--accent-blue);
+}
+
+.action-card.risk-red::before {
+    background-color: var(--risk-red);
+}
+
+.action-card.risk-orange::before {
+    background-color: var(--risk-orange);
+}
+
+.action-card.risk-yellow::before {
+    background-color: var(--risk-yellow);
+}
+
+.action-card.risk-green::before {
+    background-color: var(--risk-green);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-navy);
+}
+
+.risk-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.risk-badge.high {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: var(--risk-red);
+}
+
+.risk-badge.medium {
+    background-color: rgba(239, 133, 55, 0.1);
+    color: var(--risk-orange);
+}
+
+.risk-badge.low {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--risk-yellow);
+}
+
+.card-content {
+    margin-bottom: 12px;
+}
+
+.content-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.content-row:last-child {
+    border-bottom: none;
+}
+
+.content-label {
+    color: var(--neutral-gray);
+    font-weight: 500;
+}
+
+.content-value {
+    color: var(--primary-navy);
+    font-weight: 600;
+}
+
+.card-action {
+    margin-top: 12px;
+}
+
+.btn-action {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    background-color: var(--primary-blue);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ==========================================
+   뉴스 피드 스타일
+   ========================================== */
+
+.news-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.news-item {
+    background: var(--primary-white);
+    border: 1px solid var(--border-gray);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.news-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-blue);
+}
+
+.news-indicator {
+    width: 4px;
+    min-width: 4px;
+    border-radius: 2px;
+    background-color: var(--accent-blue);
+}
+
+.news-indicator.alert {
+    background-color: var(--risk-red);
+}
+
+.news-indicator.warning {
+    background-color: var(--risk-orange);
+}
+
+.news-content {
+    flex: 1;
+}
+
+.news-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-navy);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.news-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--neutral-gray);
+}
+
+.news-source {
+    font-weight: 500;
+}
+
+.news-time {
+    font-family: var(--font-mono);
+}
+
+.news-keywords {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.keyword-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.keyword-tag.supplier {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--risk-green);
+}
+
+.keyword-tag.category {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--status-info);
+}
+
+.keyword-tag.raw-material {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--risk-yellow);
+}
+
+.keyword-tag.policy {
+    background-color: rgba(239, 133, 55, 0.1);
+    color: var(--risk-orange);
+}
+
+/* ==========================================
+   모달 스타일
+   ========================================== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--primary-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-gray);
+    padding-bottom: 16px;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    color: var(--primary-navy);
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--neutral-gray);
+    transition: color 0.2s ease;
+}
+
+.btn-close:hover {
+    color: var(--primary-navy);
+}
+
+.keyword-section {
+    margin-bottom: 24px;
+}
+
+.keyword-section h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-navy);
+    margin-bottom: 12px;
+}
+
+.keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.keyword-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.keyword-chip button {
+    background: none;
+    border: none;
+    color: var(--primary-blue);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    transition: opacity 0.2s ease;
+}
+
+.keyword-chip button:hover {
+    opacity: 0.7;
+}
+
+.keyword-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-gray);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.keyword-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-gray);
+}
+
+/* ==========================================
+   버튼 스타일
+   ========================================== */
+
+.btn-settings {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-settings:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background-color: var(--light-gray);
+    color: var(--primary-navy);
+    border: 1px solid var(--border-gray);
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-gray);
+}
+
+.btn-small {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-small:hover {
+    background-color: var(--primary-blue);
+}
+
+/* ==========================================
+   스켈레톤 로더
+   ========================================== */
+
+.skeleton-card {
+    background: linear-gradient(90deg, var(--light-gray) 25%, var(--border-gray) 50%, var(--light-gray) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: var(--radius-lg);
+    height: 200px;
+}
+
+.skeleton-news {
+    background: linear-gradient(90deg, var(--light-gray) 25%, var(--border-gray) 50%, var(--light-gray) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: var(--radius-lg);
+    height: 100px;
+    margin-bottom: 12px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ==========================================
+   반응형 디자인
+   ========================================== */
+
+@media (max-width: 768px) {
+    header {
+        padding: 16px 16px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-controls {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+
+    .action-cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .news-item {
+        flex-direction: column;
+    }
+
+    .modal-content {
+        max-width: 100%;
+        max-height: 90vh;
+    }
+
+    main {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 18px;
+    }
+
+    .section-title {
+        font-size: 16px;
+    }
+
+    .news-title {
+        font-size: 13px;
+    }
+
+    .keyword-list {
+        gap: 4px;
+    }
+
+    .keyword-chip {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}

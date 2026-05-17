@@ -2,7 +2,6 @@
 // Action Priority Board - 메인 로직
 // ==========================================
 
-// 전역 상태
 let appState = {
     allNews: [],
     keywords: {},
@@ -10,47 +9,20 @@ let appState = {
     lastUpdated: null,
 };
 
-// 기본 키워드 설정 (상세 버전)
 const DEFAULT_KEYWORDS = {
     협력사: [
         'SPC', 'CJ', '오뚜기', '동원F&B', '해태', '롯데칠성', '농심', '풀무원',
         '샘표', '코자', '오상', '대상', '멕시카나', '이조', '미원', '우양',
-        'LG생활건강', '매일유업', '남양유업', '서울우유', '지창', '팬토스',
-        'KEKOIL', '한올유지', '흑마', '삼양', '한샘', '한동식품', '대한식품',
-        'BI', 'DL', '삼진', '한영', 'CFS', '광동제약', '안심나라'
+        'LG생활건강', '매일유업', '남양유업', '서울우유'
     ],
     품목: [
-        '제과', '비스킷', '스낵', '초콜릿', '캔디', '껌',
-        '음료', '기능성음료', '에너지음료', '음료수', '스포츠음료',
-        '라면', '면류', '국수', '파스타',
-        '장류', '고추장', '된장', '간장', '된장국',
-        '유지류', '올리브유', '참기름', '들기름', '카놀라유', '팜유',
-        '소스류', '마요네즈', '토마토소스', '카레', '고추장소스', '명란젓',
-        '간편식', '컵라면', '김밥', '주먹밥', '도시락',
-        '유제품', '요거트', '치즈', '버터', '우유', '분유',
-        '계란', '계란가공품',
-        '수산물', '건어물', '해산물', '수산가공품',
-        '고기', '육가공품', '소시지', '햄', '베이컨'
+        '제과', '비스킷', '스낵', '초콜릿', '음료', '라면', '면류', '장류', '유지류', '소스류'
     ],
     원료: [
-        '밀', '쌀', '옥수수', '보리', '콩', '팥', '검은콩', '들깨',
-        '팜유', '카놀라유', '해바라기유', '참기름', '들기름', '포도씨유',
-        '설탕', '고과당액', '포도당', '올리고당', '스테비아',
-        '소금', '천일염', '정제염',
-        '계란', '전란',
-        '밀가루', '옥수수전분', '감자전분', '타피오카전분',
-        '유제품', '탈지분유', '버터밀크', '생크림', '치즈분말',
-        '해산물', '멸치', '새우', '굴', '건미역', '다시마',
-        '육가공품', '돈육', '우육', '닭육',
-        '첨가물', '글루타민산나트륨', '이산화황', '소르빈산칼륨',
-        '향료', '색소', '보존료',
-        '카카오', '카카오분말', '초콜릿',
-        '커피', '커피빈', '인스턴트커피'
+        '밀', '쌀', '옥수수', '팜유', '카놀라유', '설탕', '소금', '계란', '참깨', '카카오'
     ],
     정책: [
-        '할당관세', 'HS코드', '환율', '금리', 'SCFI', 'WCI', 'BDI',
-        '유가', 'CPI', 'PPI', '최저임금', '운임', 'FTA', '통관',
-        '식품안전', '기준', '규정', '인증', '라벨링'
+        '환율', '금리', '운임', 'SCFI', 'WCI', 'BDI', '유가', 'CPI'
     ]
 };
 
@@ -61,13 +33,9 @@ const DEFAULT_KEYWORDS = {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, starting initialization...');
     
-    // 키워드 로드
     loadKeywords();
-    
-    // 뉴스 데이터 로드
     loadNews();
     
-    // 키워드 설정 모달 버튼
     const settingsBtn = document.getElementById('settingsBtn');
     const keywordModal = document.getElementById('keywordModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -93,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // 필터 이벤트 리스너
     const filterType = document.getElementById('filterType');
     const filterKeyword = document.getElementById('filterKeyword');
     
@@ -107,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 데이터 로드 함수
+// 데이터 로드
 // ==========================================
 
 function loadNews() {
@@ -123,11 +90,9 @@ function loadNews() {
         .then(data => {
             console.log('News data loaded:', data.news.length, 'articles');
             
-            // 전역 상태 업데이트
             appState.allNews = data.news || [];
             appState.lastUpdated = data.lastUpdated;
             
-            // UI 렌더링
             updateLastUpdated();
             renderActionCards();
             renderNewsFeed();
@@ -137,7 +102,6 @@ function loadNews() {
         .catch(error => {
             console.error('뉴스 로드 실패:', error);
             
-            // 에러 표시
             const newsFeed = document.getElementById('newsFeed');
             if (newsFeed) {
                 newsFeed.innerHTML = `
@@ -151,7 +115,7 @@ function loadNews() {
 }
 
 // ==========================================
-// 화면 업데이트 함수
+// UI 렌더링
 // ==========================================
 
 function updateLastUpdated() {
@@ -165,7 +129,6 @@ function renderActionCards() {
     const container = document.getElementById('actionCardsContainer');
     if (!container) return;
     
-    // 위험도가 높은 뉴스 3개 선택
     const actionNews = appState.allNews
         .filter(news => news.riskLevel === 'high' || news.riskLevel === 'medium')
         .slice(0, 3);
@@ -175,9 +138,9 @@ function renderActionCards() {
         return;
     }
     
-    container.innerHTML = actionNews.map(news => {
-        const idx = appState.allNews.findIndex(n => n.id === news.id);
-        return createActionCard(news, idx);
+    container.innerHTML = actionNews.map((news, idx) => {
+        const index = appState.allNews.findIndex(n => n.id === news.id);
+        return createActionCard(news, index);
     }).join('');
 }
 
@@ -199,11 +162,13 @@ function updateFilterOptions() {
     const filterKeyword = document.getElementById('filterKeyword');
     if (!filterKeyword) return;
     
-    // 모든 키워드 수집
     const allKeywords = new Set();
     appState.allNews.forEach(news => {
-        Object.values(news.matchedKeywords).forEach(keywords => {
-            keywords.forEach(kw => allKeywords.add(kw));
+        const kw = news.matchedKeywords || {};
+        Object.values(kw).forEach(keywords => {
+            if (Array.isArray(keywords)) {
+                keywords.forEach(k => allKeywords.add(k));
+            }
         });
     });
     
@@ -225,23 +190,14 @@ function updateFilterOptions() {
 // ==========================================
 
 function createActionCard(news, idx) {
-    const riskBadges = {
-        high: '위험',
-        medium: '주의',
-        low: '안정'
-    };
+    const riskBadges = { high: '위험', medium: '주의', low: '안정' };
+    const riskClasses = { high: 'high', medium: 'medium', low: 'low' };
     
-    const riskClasses = {
-        high: 'high',
-        medium: 'medium',
-        low: 'low'
-    };
-    
-    // 주요 키워드 추출
+    const kw = news.matchedKeywords || {};
     const allMatched = [
-        ...news.matchedKeywords.협력사,
-        ...news.matchedKeywords.품목,
-        ...news.matchedKeywords.원료
+        ...(kw.협력사 || []),
+        ...(kw.품목 || []),
+        ...(kw.원료 || [])
     ];
     
     const mainKeyword = allMatched[0] || '기타';
@@ -276,18 +232,19 @@ function createActionCard(news, idx) {
 function createNewsItem(news, index) {
     const indicatorClass = news.riskLevel === 'high' ? 'alert' : (news.riskLevel === 'medium' ? 'warning' : '');
     
-    // 매칭된 키워드들을 카테고리별로 표시
     let keywordsHtml = '';
-    Object.entries(news.matchedKeywords).forEach(([category, keywords]) => {
-        keywords.forEach(kw => {
-            const tagClass = category === '협력사' ? 'supplier' : 
-                            category === '품목' ? 'category' : 
-                            category === '원료' ? 'raw-material' : 'policy';
-            keywordsHtml += `<span class="keyword-tag ${tagClass}">${kw}</span>`;
-        });
+    const kw = news.matchedKeywords || {};
+    Object.entries(kw).forEach(([category, keywords]) => {
+        if (Array.isArray(keywords)) {
+            keywords.forEach(k => {
+                const tagClass = category === '협력사' ? 'supplier' : 
+                                category === '품목' ? 'category' : 
+                                category === '원료' ? 'raw-material' : 'policy';
+                keywordsHtml += `<span class="keyword-tag ${tagClass}">${k}</span>`;
+            });
+        }
     });
     
-    // 올바른 인덱스 찾기
     const correctIndex = appState.allNews.findIndex(n => n.id === news.id);
     
     return `
@@ -308,7 +265,7 @@ function createNewsItem(news, index) {
 }
 
 // ==========================================
-// 뉴스 상세 보기 모달
+// 뉴스 상세 보기
 // ==========================================
 
 function openNewsDetail(index) {
@@ -318,27 +275,36 @@ function openNewsDetail(index) {
         return;
     }
     
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'newsDetailModal';
+    console.log('상세 페이지 열기:', news.title);
     
-    const riskBadges = {
-        high: '위험',
-        medium: '주의',
-        low: '안정'
-    };
+    const riskBadges = { high: '위험', medium: '주의', low: '안정' };
+    const riskClasses = { high: 'high', medium: 'medium', low: 'low' };
     
-    const riskClasses = {
-        high: 'high',
-        medium: 'medium',
-        low: 'low'
-    };
+    const kw = news.matchedKeywords || {};
+    let keywordsSections = '';
     
-    modal.innerHTML = `
-        <div class="modal-content news-modal">
+    ['협력사', '품목', '원료', '정책'].forEach(cat => {
+        const keywords = kw[cat];
+        if (keywords && Array.isArray(keywords) && keywords.length > 0) {
+            const cls = cat === '협력사' ? 'supplier' : 
+                       cat === '품목' ? 'category' : 
+                       cat === '원료' ? 'raw-material' : 'policy';
+            keywordsSections += `
+                <div class="keywords-section">
+                    <h4>${cat}</h4>
+                    <div class="keywords-list">
+                        ${keywords.map(k => `<span class="keyword-tag ${cls}">${k}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+    });
+    
+    const html = `
+        <div class="modal-content news-modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2>${news.title}</h2>
-                <button class="btn-close" onclick="document.getElementById('newsDetailModal').remove()">✕</button>
+                <button class="btn-close" onclick="document.getElementById('newsModal').remove()">✕</button>
             </div>
             
             <div class="modal-meta">
@@ -349,58 +315,25 @@ function openNewsDetail(index) {
             
             <div class="modal-body">
                 <p>${news.content}</p>
-                
-                ${news.matchedKeywords.협력사.length > 0 ? `
-                    <div class="keywords-section">
-                        <h4>협력사</h4>
-                        <div class="keywords-list">
-                            ${news.matchedKeywords.협력사.map(kw => `<span class="keyword-tag supplier">${kw}</span>`).join('')}
-                        </div>
-                    </div>
-                ` : ''}
-                
-                ${news.matchedKeywords.품목.length > 0 ? `
-                    <div class="keywords-section">
-                        <h4>품목</h4>
-                        <div class="keywords-list">
-                            ${news.matchedKeywords.품목.map(kw => `<span class="keyword-tag category">${kw}</span>`).join('')}
-                        </div>
-                    </div>
-                ` : ''}
-                
-                ${news.matchedKeywords.원료.length > 0 ? `
-                    <div class="keywords-section">
-                        <h4>원료</h4>
-                        <div class="keywords-list">
-                            ${news.matchedKeywords.원료.map(kw => `<span class="keyword-tag raw-material">${kw}</span>`).join('')}
-                        </div>
-                    </div>
-                ` : ''}
-                
-                ${news.matchedKeywords.정책.length > 0 ? `
-                    <div class="keywords-section">
-                        <h4>정책/물류</h4>
-                        <div class="keywords-list">
-                            ${news.matchedKeywords.정책.map(kw => `<span class="keyword-tag policy">${kw}</span>`).join('')}
-                        </div>
-                    </div>
-                ` : ''}
+                ${keywordsSections}
             </div>
             
             <div class="modal-actions">
                 <a href="${news.url}" target="_blank" class="btn-primary">원문 읽기</a>
-                <button class="btn-secondary" onclick="document.getElementById('newsDetailModal').remove()">닫기</button>
+                <button class="btn-secondary" onclick="document.getElementById('newsModal').remove()">닫기</button>
             </div>
         </div>
     `;
     
-    document.body.appendChild(modal);
-    
+    const modal = document.createElement('div');
+    modal.id = 'newsModal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = html;
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
+        if (e.target === modal) modal.remove();
     });
+    
+    document.body.appendChild(modal);
 }
 
 // ==========================================
@@ -408,22 +341,22 @@ function openNewsDetail(index) {
 // ==========================================
 
 function applyFilters() {
-    const filterType = document.getElementById('filterType')?.value || 'all';
-    const filterKeyword = document.getElementById('filterKeyword')?.value || '';
+    const type = document.getElementById('filterType')?.value || 'all';
+    const keyword = document.getElementById('filterKeyword')?.value || '';
     
     appState.filteredNews = appState.allNews.filter(news => {
-        if (filterType === 'all' && !filterKeyword) {
-            return true;
+        if (type === 'all' && !keyword) return true;
+        
+        if (keyword) {
+            const kw = news.matchedKeywords || {};
+            return Object.values(kw).some(keywords => {
+                return Array.isArray(keywords) && keywords.includes(keyword);
+            });
         }
         
-        if (filterKeyword) {
-            return Object.values(news.matchedKeywords).some(keywords => 
-                keywords.includes(filterKeyword)
-            );
-        }
-        
-        if (filterType !== 'all') {
-            return news.matchedKeywords[filterType]?.length > 0;
+        if (type !== 'all') {
+            const kw = news.matchedKeywords || {};
+            return kw[type] && Array.isArray(kw[type]) && kw[type].length > 0;
         }
         
         return true;
@@ -433,29 +366,18 @@ function applyFilters() {
 }
 
 // ==========================================
-// 탭 전환 기능
+// 탭 전환
 // ==========================================
 
 function switchTab(tabName) {
-    // 모든 탭 콘텐츠 숨기기
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     
-    // 모든 탭 버튼 비활성화
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
+    const tab = document.getElementById(tabName);
+    if (tab) tab.classList.add('active');
     
-    // 선택한 탭 표시
-    const selectedTab = document.getElementById(tabName);
-    if (selectedTab) {
-        selectedTab.classList.add('active');
-    }
-    
-    // 클릭된 버튼 찾아서 활성화
-    const clickedBtn = event.target.closest('.tab-btn');
-    if (clickedBtn) {
-        clickedBtn.classList.add('active');
-    }
+    const btn = event.target.closest('.tab-btn');
+    if (btn) btn.classList.add('active');
 }
 
 // ==========================================
@@ -534,7 +456,7 @@ function resetToDefault() {
 }
 
 // ==========================================
-// 유틸 함수
+// 유틸
 // ==========================================
 
 function formatTime(dateString) {
@@ -563,5 +485,5 @@ function truncateText(text, maxLength) {
 }
 
 function showAbout() {
-    alert(`Action Priority Board v1.0\n\n현대그린푸드 공산품구매팀\nNews-driven action monitoring system\n\n데이터 갱신: 매일 자동 (GitHub Actions)`);
+    alert(`Action Priority Board v1.0\n\n현대그린푸드 공산품구매팀\nNews-driven action monitoring system`);
 }

@@ -578,3 +578,4 @@ function updateLastUpdated() {
 
 function showAbout() {
     alert(`Action Priority Board v1.0\n\n현대그린푸드 공산품구매팀\nNews-driven action monitoring system\n\n데이터 갱신: 매일 자동 (GitHub Actions)`);
+}

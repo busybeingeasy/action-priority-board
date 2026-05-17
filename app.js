@@ -579,3 +579,26 @@ function updateLastUpdated() {
 function showAbout() {
     alert(`Action Priority Board v1.0\n\n현대그린푸드 공산품구매팀\nNews-driven action monitoring system\n\n데이터 갱신: 매일 자동 (GitHub Actions)`);
 }
+
+// ==========================================
+// 탭 전환 기능
+// ==========================================
+
+function switchTab(tabName) {
+    // 모든 탭 콘텐츠 숨기기
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    // 모든 탭 버튼 비활성화
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    // 선택한 탭 표시
+    const selectedTab = document.getElementById(tabName);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+    
+    // 선택한 버튼 활성화
+    event.target.classList.add('active');
+}

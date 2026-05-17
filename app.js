@@ -102,7 +102,7 @@ function renderActionCards() {
     if (!container) return;
     
     const actionNews = appState.allNews
-        .filter(n => n.riskLevel === 'high' || n.riskLevel === 'medium')
+        .filter(n => n && n.riskLevel && (n.riskLevel === 'high' || n.riskLevel === 'medium'))
         .slice(0, 3);
     
     if (actionNews.length === 0) {
@@ -115,20 +115,24 @@ function renderActionCards() {
         const badges = { high: '위험', medium: '주의', low: '안정' };
         const classes = { high: 'high', medium: 'medium', low: 'low' };
         
+        // matchedKeywords 체크
+        const keywords = news.matchedKeywords || {};
+        const mainKeyword = (keywords.협력사 && keywords.협력사[0]) || '기타';
+        
         return `
             <div class="action-card risk-${news.riskLevel}">
                 <div class="card-header">
-                    <h3 class="card-title">${news.matchedKeywords.협력사[0] || '기타'}</h3>
+                    <h3 class="card-title">${mainKeyword}</h3>
                     <span class="risk-badge ${classes[news.riskLevel]}">${badges[news.riskLevel]}</span>
                 </div>
                 <div class="card-content">
                     <div class="content-row">
                         <span class="content-label">이슈</span>
-                        <span class="content-value">${news.title.substring(0, 30)}...</span>
+                        <span class="content-value">${news.title ? news.title.substring(0, 30) + '...' : '제목 없음'}</span>
                     </div>
                     <div class="content-row">
                         <span class="content-label">출처</span>
-                        <span class="content-value">${news.source}</span>
+                        <span class="content-value">${news.source || '출처 없음'}</span>
                     </div>
                     <div class="content-row">
                         <span class="content-label">발생시간</span>

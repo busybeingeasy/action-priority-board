@@ -272,14 +272,8 @@ function createActionCard(news) {
     
     const mainKeyword = allMatched[0] || '기타';
     
-    // 액션 타입 판단
-    let actionType = '모니터링';
-    if (news.matchedKeywords.협력사.length > 0) {
-        actionType = '협력사 연락';
-    }
-    if (news.matchedKeywords.정책.length > 0) {
-        actionType = '정책 확인';
-    }
+    // 올바른 인덱스 찾기
+    const correctIndex = appState.allNews.findIndex(n => n.id === news.id);
     
     card.innerHTML = `
         <div class="card-header">
@@ -301,7 +295,7 @@ function createActionCard(news) {
             </div>
         </div>
         <div class="card-action">
-            <button class="btn-action" onclick="openNewsDetail(${appState.allNews.indexOf(news)})">${actionType}</button>
+            <button class="btn-action" onclick="openNewsDetail(${correctIndex})">자세히 보기</button>
         </div>
     `;
     
@@ -365,6 +359,9 @@ function createNewsItem(news, index) {
         });
     });
     
+    // 올바른 인덱스 찾기
+    const correctIndex = appState.allNews.findIndex(n => n.id === news.id);
+    
     item.innerHTML = `
         <div class="news-indicator ${indicatorClass}"></div>
         <div class="news-content">
@@ -379,7 +376,7 @@ function createNewsItem(news, index) {
         </div>
     `;
     
-    item.addEventListener('click', () => openNewsDetail(index));
+    item.addEventListener('click', () => openNewsDetail(correctIndex));
     
     return item;
 }
@@ -581,4 +578,3 @@ function updateLastUpdated() {
 
 function showAbout() {
     alert(`Action Priority Board v1.0\n\n현대그린푸드 공산품구매팀\nNews-driven action monitoring system\n\n데이터 갱신: 매일 자동 (GitHub Actions)`);
-}

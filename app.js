@@ -599,6 +599,12 @@ function switchTab(tabName) {
         selectedTab.classList.add('active');
     }
     
+    // 클릭된 버튼 찾아서 활성화
+    const clickedBtn = event.target.closest('.tab-btn');
+    if (clickedBtn) {
+        clickedBtn.classList.add('active');
+    }
+}
     // 선택한 버튼 활성화
     event.target.classList.add('active');
 }

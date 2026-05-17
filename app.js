@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadNews() {
     try {
-        const response = await fetch('./data/latest.json');
+        const response = await fetch('/action-priority-board/data/latest.json');
         const data = await response.json();
         
         appState.allNews = data.news || [];

@@ -13,7 +13,7 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1 class="logo">📊 Action Priority Board</h1>
+                    <h1 class="logo">📊 Purchasing Intelligence Dashboard</h1>
                     <p class="subtitle">현대그린푸드 공산품구매팀</p>
                 </div>
                 <div class="header-right">
@@ -26,41 +26,433 @@
             </div>
         </header>
 
+        <!-- 탭 네비게이션 -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('action-board')">
+                📰 Action Priority Board
+            </button>
+            <button class="tab-btn" onclick="switchTab('raw-materials')">
+                📊 Raw Materials & Macro
+            </button>
+        </div>
+
         <!-- 메인 콘텐츠 -->
         <main class="main-content">
-            <!-- 1. 오늘의 액션 카드 -->
-            <section class="section">
-                <h2 class="section-title">📍 오늘의 우선 액션</h2>
-                <div class="action-cards-container" id="actionCardsContainer">
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                </div>
-            </section>
-
-            <!-- 2. 뉴스 피드 -->
-            <section class="section">
-                <div class="section-header">
-                    <h2 class="section-title">📰 관련 뉴스 모니터링</h2>
-                    <div class="filter-controls">
-                        <select id="filterType" class="filter-select">
-                            <option value="all">전체</option>
-                            <option value="협력사">협력사</option>
-                            <option value="품목">품목</option>
-                            <option value="원료">원료</option>
-                            <option value="정책">정책/물류</option>
-                        </select>
-                        <select id="filterKeyword" class="filter-select">
-                            <option value="">모든 키워드</option>
-                        </select>
+            <!-- TAB 1: Action Priority Board -->
+            <div id="action-board" class="tab-content active">
+                <!-- 1. 오늘의 액션 카드 -->
+                <section class="section">
+                    <h2 class="section-title">📍 오늘의 우선 액션</h2>
+                    <div class="action-cards-container" id="actionCardsContainer">
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
                     </div>
-                </div>
-                <div class="news-feed" id="newsFeed">
-                    <div class="skeleton-news"></div>
-                    <div class="skeleton-news"></div>
-                    <div class="skeleton-news"></div>
-                </div>
-            </section>
+                </section>
+
+                <!-- 2. 뉴스 피드 -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">📰 관련 뉴스 모니터링</h2>
+                        <div class="filter-controls">
+                            <select id="filterType" class="filter-select">
+                                <option value="all">전체</option>
+                                <option value="협력사">협력사</option>
+                                <option value="품목">품목</option>
+                                <option value="원료">원료</option>
+                                <option value="정책">정책/물류</option>
+                            </select>
+                            <select id="filterKeyword" class="filter-select">
+                                <option value="">모든 키워드</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="news-feed" id="newsFeed">
+                        <div class="skeleton-news"></div>
+                        <div class="skeleton-news"></div>
+                        <div class="skeleton-news"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- TAB 2: Raw Materials & Macro Indicators -->
+            <div id="raw-materials" class="tab-content">
+                
+                <!-- 농산물 섹션 -->
+                <section class="section">
+                    <h2 class="section-title">🌾 농산물 (Commodities)</h2>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>종목명</th>
+                                    <th>월물</th>
+                                    <th>종가</th>
+                                    <th>베이스</th>
+                                    <th>고가</th>
+                                    <th>저가</th>
+                                    <th>변동</th>
+                                    <th>변동%</th>
+                                    <th>시간</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🌾</span> 밀 (Wheat)
+                                    </td>
+                                    <td>2026년 7월</td>
+                                    <td class="price-cell">$420</td>
+                                    <td>$400</td>
+                                    <td class="high-price">$425</td>
+                                    <td class="low-price">$418</td>
+                                    <td class="change positive">+$20</td>
+                                    <td class="change-pct positive">+5.0%</td>
+                                    <td class="time">09:30</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🌴</span> 팜유 (Palm Oil)
+                                    </td>
+                                    <td>2026년 6월</td>
+                                    <td class="price-cell">$540</td>
+                                    <td>$550</td>
+                                    <td class="high-price">$545</td>
+                                    <td class="low-price">$535</td>
+                                    <td class="change negative">-$10</td>
+                                    <td class="change-pct negative">-1.8%</td>
+                                    <td class="time">10:15</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🍬</span> 설탕 (Sugar)
+                                    </td>
+                                    <td>2026년 7월</td>
+                                    <td class="price-cell">28.5¢</td>
+                                    <td>26¢</td>
+                                    <td class="high-price">29¢</td>
+                                    <td class="low-price">28¢</td>
+                                    <td class="change positive">+2.5¢</td>
+                                    <td class="change-pct positive warning">+9.3%</td>
+                                    <td class="time">11:45</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">☕</span> 커피 (Coffee)
+                                    </td>
+                                    <td>2026년 7월</td>
+                                    <td class="price-cell">$250</td>
+                                    <td>$240</td>
+                                    <td class="high-price">$252</td>
+                                    <td class="low-price">$248</td>
+                                    <td class="change positive">+$10</td>
+                                    <td class="change-pct positive">+4.0%</td>
+                                    <td class="time">08:50</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🍫</span> 코코아 (Cocoa)
+                                    </td>
+                                    <td>2026년 7월</td>
+                                    <td class="price-cell">$3,850</td>
+                                    <td>$3,900</td>
+                                    <td class="high-price">$3,920</td>
+                                    <td class="low-price">$3,800</td>
+                                    <td class="change negative">-$50</td>
+                                    <td class="change-pct negative">-1.3%</td>
+                                    <td class="time">12:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🌾</span> 쌀 (Rice)
+                                    </td>
+                                    <td>2026년 8월</td>
+                                    <td class="price-cell">$380</td>
+                                    <td>$370</td>
+                                    <td class="high-price">$385</td>
+                                    <td class="low-price">$375</td>
+                                    <td class="change positive">+$9</td>
+                                    <td class="change-pct positive">+2.4%</td>
+                                    <td class="time">10:30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 에너지 섹션 -->
+                <section class="section">
+                    <h2 class="section-title">⚡ 에너지 (Energy)</h2>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>종목명</th>
+                                    <th>월물</th>
+                                    <th>종가</th>
+                                    <th>베이스</th>
+                                    <th>고가</th>
+                                    <th>저가</th>
+                                    <th>변동</th>
+                                    <th>변동%</th>
+                                    <th>시간</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🛢️</span> WTI유 (Crude Oil)
+                                    </td>
+                                    <td>2026년 6월</td>
+                                    <td class="price-cell">$78.50</td>
+                                    <td>$77.50</td>
+                                    <td class="high-price">$79.20</td>
+                                    <td class="low-price">$77.80</td>
+                                    <td class="change positive">+$1.00</td>
+                                    <td class="change-pct positive">+1.3%</td>
+                                    <td class="time">13:20</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">💨</span> 천연가스 (Natural Gas)
+                                    </td>
+                                    <td>2026년 6월</td>
+                                    <td class="price-cell">$2.96</td>
+                                    <td>$3.00</td>
+                                    <td class="high-price">$3.05</td>
+                                    <td class="low-price">$2.94</td>
+                                    <td class="change negative">-$0.04</td>
+                                    <td class="change-pct negative">-1.3%</td>
+                                    <td class="time">12:45</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">⚙️</span> 브렌트유 (Brent Crude)
+                                    </td>
+                                    <td>2026년 7월</td>
+                                    <td class="price-cell">$83.20</td>
+                                    <td>$82.50</td>
+                                    <td class="high-price">$84.10</td>
+                                    <td class="low-price">$82.80</td>
+                                    <td class="change positive">+$0.70</td>
+                                    <td class="change-pct positive">+0.8%</td>
+                                    <td class="time">13:15</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 환율 섹션 -->
+                <section class="section">
+                    <h2 class="section-title">💱 환율 (Foreign Exchange)</h2>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>종목명</th>
+                                    <th>월물</th>
+                                    <th>종가</th>
+                                    <th>베이스</th>
+                                    <th>고가</th>
+                                    <th>저가</th>
+                                    <th>변동</th>
+                                    <th>변동%</th>
+                                    <th>시간</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🇺🇸</span> USD/KRW
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">1,300.5</td>
+                                    <td>1,290</td>
+                                    <td class="high-price">1,305</td>
+                                    <td class="low-price">1,298</td>
+                                    <td class="change positive">+10.5</td>
+                                    <td class="change-pct positive">+0.81%</td>
+                                    <td class="time">16:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🇪🇺</span> EUR/KRW
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">1,425.30</td>
+                                    <td>1,430</td>
+                                    <td class="high-price">1,432</td>
+                                    <td class="low-price">1,420</td>
+                                    <td class="change negative">-4.70</td>
+                                    <td class="change-pct negative">-0.33%</td>
+                                    <td class="time">16:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🇯🇵</span> JPY/KRW
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">9.35</td>
+                                    <td>9.32</td>
+                                    <td class="high-price">9.38</td>
+                                    <td class="low-price">9.30</td>
+                                    <td class="change positive">+0.03</td>
+                                    <td class="change-pct positive">+0.32%</td>
+                                    <td class="time">16:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🇨🇳</span> CNY/KRW
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">179.20</td>
+                                    <td>179.20</td>
+                                    <td class="high-price">179.50</td>
+                                    <td class="low-price">179.00</td>
+                                    <td class="change neutral">-</td>
+                                    <td class="change-pct neutral">-</td>
+                                    <td class="time">16:00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 거시경제 지표 섹션 -->
+                <section class="section">
+                    <h2 class="section-title">📊 거시경제 지표</h2>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>지표명</th>
+                                    <th>현재값</th>
+                                    <th>이전값</th>
+                                    <th>기준치</th>
+                                    <th>변동</th>
+                                    <th>변동%</th>
+                                    <th>상태</th>
+                                    <th>업데이트</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="indicator-name">기준금리 (Base Rate)</td>
+                                    <td class="price-cell">3.5%</td>
+                                    <td>3.5%</td>
+                                    <td>3.5%</td>
+                                    <td class="change neutral">-</td>
+                                    <td class="change-pct neutral">유지</td>
+                                    <td><span class="status-badge stable">안정</span></td>
+                                    <td class="time">2026-05-15</td>
+                                </tr>
+                                <tr>
+                                    <td class="indicator-name">CPI (YoY, %)</td>
+                                    <td class="price-cell">2.1%</td>
+                                    <td>2.0%</td>
+                                    <td>2.0%</td>
+                                    <td class="change positive">+0.1</td>
+                                    <td class="change-pct positive">+5.0%</td>
+                                    <td><span class="status-badge warning">주의</span></td>
+                                    <td class="time">2026-05-10</td>
+                                </tr>
+                                <tr>
+                                    <td class="indicator-name">PPI (YoY, %)</td>
+                                    <td class="price-cell">1.8%</td>
+                                    <td>1.9%</td>
+                                    <td>2.0%</td>
+                                    <td class="change negative">-0.1</td>
+                                    <td class="change-pct negative">-5.3%</td>
+                                    <td><span class="status-badge stable">안정</span></td>
+                                    <td class="time">2026-05-10</td>
+                                </tr>
+                                <tr>
+                                    <td class="indicator-name">최저임금 (원/시간)</td>
+                                    <td class="price-cell">10,870</td>
+                                    <td>10,350</td>
+                                    <td>10,350</td>
+                                    <td class="change positive">+520</td>
+                                    <td class="change-pct positive danger">+5.0%</td>
+                                    <td><span class="status-badge alert">상승</span></td>
+                                    <td class="time">2026-01-01</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 해운 지수 섹션 -->
+                <section class="section">
+                    <h2 class="section-title">⛴️ 해운 지수 (Shipping Indices)</h2>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>종목명</th>
+                                    <th>월물</th>
+                                    <th>종가</th>
+                                    <th>베이스</th>
+                                    <th>고가</th>
+                                    <th>저가</th>
+                                    <th>변동</th>
+                                    <th>변동%</th>
+                                    <th>시간</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">📦</span> SCFI (상하이)
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">842.5</td>
+                                    <td>816.2</td>
+                                    <td class="high-price">850</td>
+                                    <td class="low-price">835</td>
+                                    <td class="change positive">+26.3</td>
+                                    <td class="change-pct positive">+3.2%</td>
+                                    <td class="time">15:30</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">🚢</span> WCI (목재)
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">5,420</td>
+                                    <td>5,340</td>
+                                    <td class="high-price">5,480</td>
+                                    <td class="low-price">5,380</td>
+                                    <td class="change positive">+80</td>
+                                    <td class="change-pct positive">+1.5%</td>
+                                    <td class="time">15:30</td>
+                                </tr>
+                                <tr>
+                                    <td class="commodity-name">
+                                        <span class="commodity-icon">📈</span> BDI (건화물)
+                                    </td>
+                                    <td>-</td>
+                                    <td class="price-cell">1,890</td>
+                                    <td>1,930</td>
+                                    <td class="high-price">1,950</td>
+                                    <td class="low-price">1,880</td>
+                                    <td class="change negative">-40</td>
+                                    <td class="change-pct negative">-2.1%</td>
+                                    <td class="time">15:30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 데이터 업데이트 정보 -->
+                <section class="section">
+                    <div class="update-info">
+                        <span>⏰ 데이터 갱신: 2026-05-17 16:30 KST</span>
+                        <span>📍 데이터 소스: KAMIS, 한국은행 ECOS, 세계은행, 상하이거래소</span>
+                    </div>
+                </section>
+            </div>
 
             <!-- 3. 키워드 관리 영역 (숨김) -->
             <section class="section modal-overlay" id="keywordModal">

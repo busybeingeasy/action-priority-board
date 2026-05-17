@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 뉴스 데이터 로드
     loadNews();
     
+    // 필터 리스너 등록
+    setupFilterListeners();
+    
     // 키워드 설정 모달 버튼
     const settingsBtn = document.getElementById('settingsBtn');
     const keywordModal = document.getElementById('keywordModal');
@@ -398,19 +401,6 @@ function openNewsDetail(index) {
 // 필터링
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    const filterType = document.getElementById('filterType');
-    const filterKeyword = document.getElementById('filterKeyword');
-    
-    if (filterType) {
-        filterType.addEventListener('change', applyFilters);
-    }
-    
-    if (filterKeyword) {
-        filterKeyword.addEventListener('change', applyFilters);
-    }
-});
-
 function applyFilters() {
     const filterType = document.getElementById('filterType')?.value || 'all';
     const filterKeyword = document.getElementById('filterKeyword')?.value || '';
@@ -434,6 +424,20 @@ function applyFilters() {
     });
     
     renderNewsFeed();
+}
+
+// 필터 이벤트 리스너 등록
+function setupFilterListeners() {
+    const filterType = document.getElementById('filterType');
+    const filterKeyword = document.getElementById('filterKeyword');
+    
+    if (filterType) {
+        filterType.addEventListener('change', applyFilters);
+    }
+    
+    if (filterKeyword) {
+        filterKeyword.addEventListener('change', applyFilters);
+    }
 }
 
 // ==========================================

@@ -212,7 +212,12 @@ function updateFilterOptions() {
 
 function openNewsDetail(idx) {
     const news = appState.allNews[idx];
-    if (!news) return;
+    if (!news) {
+        console.error('뉴스를 찾을 수 없습니다:', idx);
+        return;
+    }
+    
+    console.log('상세 페이지 열기:', news.title);
     
     const badges = { high: '위험', medium: '주의', low: '안정' };
     const classes = { high: 'high', medium: 'medium', low: 'low' };
@@ -235,13 +240,11 @@ function openNewsDetail(idx) {
         }
     });
     
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.innerHTML = `
-        <div class="modal-content news-modal">
+    const html = `
+        <div class="modal-content news-modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2>${news.title}</h2>
-                <button class="btn-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+                <button class="btn-close" onclick="document.getElementById('newsModal').remove()">✕</button>
             </div>
             
             <div class="modal-meta">
@@ -257,15 +260,20 @@ function openNewsDetail(idx) {
             
             <div class="modal-actions">
                 <a href="${news.url}" target="_blank" class="btn-primary">원문 읽기</a>
-                <button class="btn-secondary" onclick="this.closest('.modal-overlay').remove()">닫기</button>
+                <button class="btn-secondary" onclick="document.getElementById('newsModal').remove()">닫기</button>
             </div>
         </div>
     `;
     
-    document.body.appendChild(modal);
+    const modal = document.createElement('div');
+    modal.id = 'newsModal';
+    modal.className = 'modal-overlay';
+    modal.innerHTML = html;
     modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.remove();
     });
+    
+    document.body.appendChild(modal);
 }
 
 // ==========================================
